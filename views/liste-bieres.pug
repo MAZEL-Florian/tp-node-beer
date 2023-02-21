@@ -1,0 +1,44 @@
+extends navbar
+
+block content
+  section.listes
+  head
+    title Liste des bières
+  body
+    h1.text-center Liste des bières
+    ul#beers
+  script(src="/socket.io/socket.io.js")
+  script.
+    const socket = io();
+
+    socket.on('beers', (beers) => {
+      const beersList = document.getElementById('beers');
+      beersList.innerHTML = '';
+
+      beers.forEach((beer) => {
+        const li = document.createElement('li');
+        
+        // Affichage du nom et de la description de la bière
+        const name = document.createElement('h4');
+        name.innerText = beer.name;
+        li.appendChild(name);
+
+
+        // Création du lien vers la page de détails de la bière
+        const link = document.createElement('a');
+        link.href = '/biere/' + beer.id;
+        link.appendChild(name);
+        li.appendChild(link);
+
+        // Affichage de l'image de la bière
+        if (beer.image_url) {
+          const image = document.createElement('img');
+          image.classList.add('img-liste-bieres');
+          image.src = beer.image_url;
+          image.alt = beer.name;
+          li.appendChild(image);
+        }
+
+        beersList.appendChild(li);
+      });
+    });

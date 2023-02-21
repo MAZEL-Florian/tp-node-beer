@@ -1,0 +1,12 @@
+extends navbar
+
+block content
+  h1 Boisson aléatoire
+  if beer
+    h2= beer.name
+    img(src=beer.image_url, alt=beer.name)
+    p= beer.description
+    p IBU: #{beer.ibu}
+    p ABV: #{beer.abv}%
+  else
+    p Une erreur est survenue lors de la récupération de la boisson aléatoire.

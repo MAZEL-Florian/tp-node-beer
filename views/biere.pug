@@ -1,0 +1,9 @@
+extends navbar
+block content
+  h1= beer.name
+  img(src=beer.image_url, alt=`Image de ${beer.name}`)
+  p.description= beer.description
+  h2 Ingrédients
+  p= beer.ingredients.malt.map(malt => `${malt.name} (${malt.amount.value} ${malt.amount.unit})`).join(', ')
+  h2 Accords mets et bières
+  p= beer.food_pairing.join(', ')

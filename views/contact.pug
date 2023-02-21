@@ -1,0 +1,41 @@
+extends navbar
+
+block content
+  section.contact
+    h1 Contactez-nous
+    form(id="chat-form")
+      label(for="message") Votre message :
+      input(type="text", id="message", name="message")
+      button(type="submit") Envoyer
+    #chat-messages
+  script(src="/socket.io/socket.io.js")
+  script.
+    const socket = io();
+
+    const chatForm = document.getElementById('chat-form');
+    const chatMessages = document.getElementById('chat-messages');
+
+    chatForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      const messageInput = document.getElementById('message');
+      const message = messageInput.value;
+
+      socket.emit('chat message', message, (response) => {
+        const newMessage = document.createElement('li');
+        newMessage.textContent = `Serveur : ${response}`;
+        chatMessages.appendChild(newMessage);
+      });
+
+      const newMessage = document.createElement('li');
+      newMessage.textContent = `Vous : ${message}`;
+      chatMessages.appendChild(newMessage);
+
+      messageInput.value = '';
+    });
+
+    socket.on('chat message', (message) => {
+      const newMessage = document.createElement('li');
+      newMessage.textContent = `Autre utilisateur : ${message}`;
+      chatMessages.appendChild(newMessage);
+    });
