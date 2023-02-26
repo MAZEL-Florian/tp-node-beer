@@ -1,41 +1,66 @@
-extends navbar
+extends layout
 
 block content
   section.contact
-    h1 Contactez-nous
-    form(id="chat-form")
-      label(for="message") Votre message :
-      input(type="text", id="message", name="message")
-      button(type="submit") Envoyer
-    #chat-messages
-  script(src="/socket.io/socket.io.js")
-  script.
-    const socket = io();
+    .container
+      .row.justify-content-center
+        .col-md-6
+          .card.mt-5.shadow-sm
+            .card-body
+              h1.text-center Contactez-nous
+              form#chat-form
+                .form-group.p-5
+                  textarea.form-control(type="input", id="message", name="message", placeholder="Votre message")
+                .text-center
+                  button.btn.btn-primary(type="submit" id="envoyer") Envoyer
+              hr
+              ul#chat-messages.list-unstyled.mb-0
+    script(src="/socket.io/socket.io.js")
+    script.
+      const socket = io();
 
-    const chatForm = document.getElementById('chat-form');
-    const chatMessages = document.getElementById('chat-messages');
+      const chatForm = document.getElementById('chat-form');
+      const chatMessages = document.getElementById('chat-messages');
+      const chatEnvoyer = document.getElementById('envoyer');
 
-    chatForm.addEventListener('submit', (event) => {
-      event.preventDefault();
+      chatForm.addEventListener('submit', (event) => {
+        event.preventDefault();
 
-      const messageInput = document.getElementById('message');
-      const message = messageInput.value;
+        const messageInput = document.getElementById('message');
+        const message = messageInput.value;
 
-      socket.emit('chat message', message, (response) => {
+        let messageSent = false; // Variable pour vérifier si le message a déjà été envoyé
+
+        socket.emit('chat message', message, (response) => {
+          if (!messageSent) { // Vérifier si le message a déjà été envoyé
+            messageSent = true; // Mettre à jour la variable pour empêcher la duplication
+
+            const newMessage = document.createElement('li');
+            newMessage.textContent = `${response}`;
+            newMessage.classList.add('bg-success', 'bg-gradient', 'text-white', 'p-3', 'rounded');
+            chatMessages.appendChild(newMessage);
+          }
+        });
+
+
+        let dateMessage = new Date();
+        let jour = dateMessage.getDate();
+        let mois = dateMessage.getMonth() + 1;
+        let annee = dateMessage.getFullYear();
+        let heure = dateMessage.getHours();
+        let minutes = dateMessage.getMinutes();
+
         const newMessage = document.createElement('li');
-        newMessage.textContent = `Serveur : ${response}`;
+        const strongDate = document.createElement('strong');
+        const spanMessage = document.createElement('span');
+        strongDate.textContent = "[" + jour + "/" + mois + "/" + annee + " à " + heure + ":" + minutes + "] ";
+        newMessage.appendChild(strongDate);
+        spanMessage.textContent = `Vous : ${message}`;
+        newMessage.appendChild(spanMessage);
         chatMessages.appendChild(newMessage);
+
+        messageInput.value = '';
+        messageInput.disabled = true;
+        chatEnvoyer.disabled = true;
       });
 
-      const newMessage = document.createElement('li');
-      newMessage.textContent = `Vous : ${message}`;
-      chatMessages.appendChild(newMessage);
-
-      messageInput.value = '';
-    });
-
-    socket.on('chat message', (message) => {
-      const newMessage = document.createElement('li');
-      newMessage.textContent = `Autre utilisateur : ${message}`;
-      chatMessages.appendChild(newMessage);
-    });

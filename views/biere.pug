@@ -1,9 +1,42 @@
-extends navbar
+extends layout
+
 block content
-  h1= beer.name
-  img(src=beer.image_url, alt=`Image de ${beer.name}`)
-  p.description= beer.description
-  h2 Ingrédients
-  p= beer.ingredients.malt.map(malt => `${malt.name} (${malt.amount.value} ${malt.amount.unit})`).join(', ')
-  h2 Accords mets et bières
-  p= beer.food_pairing.join(', ')
+  .container
+    h1.text-center.py-5.text-white= biere.name
+    .main-color.border.border-dark.border-2.rounded
+      .d-flex.justify-content-around.rounded
+        img(src=biere.image_url, alt=`Image de ${biere.name}`).content-image.img-fluid
+        .d-flex.flex-column.col-6
+          h3= '"' + biere.tagline + '"'
+          p.description= biere.description
+      .d-flex.justify-content-evenly.py-5.text-center
+        .flex-column
+          h2 Ingrédients
+          ul.list-group-flush
+            each malt in biere.ingredients.malt
+              li.list-group-item=  `${malt.name} (${malt.amount.value} ${malt.amount.unit})`
+        .flex-column
+          h2 Détails
+          ul.list-group-flush
+            li.list-group-item
+              strong Alcool par volume :
+              |  #{biere.abv}%
+            li.list-group-item
+              strong Intensité :
+              |  #{biere.ibu}%
+            li.list-group-item
+              strong EBC :
+              |  #{biere.ebc}
+            li.list-group-item
+              strong SRM :
+              |  #{biere.srm}
+            li.list-group-item
+              strong pH :
+              |  #{biere.ph}
+        .flex-column
+          h2 Accords mets et bières
+          ul.list-group-flush
+            each food in biere.food_pairing
+              li.list-group-item=  `${food}`
+
+      h5.p-2.fw-bold= biere.contributed_by + ' y a contribué.'

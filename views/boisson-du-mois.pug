@@ -1,12 +1,28 @@
-extends navbar
+extends layout
 
 block content
-  h1 Boisson aléatoire
-  if beer
-    h2= beer.name
-    img(src=beer.image_url, alt=beer.name)
-    p= beer.description
-    p IBU: #{beer.ibu}
-    p ABV: #{beer.abv}%
+  if biere
+    h1.text-center.py-5.text-white= biere.name
+    .container.border.p-5.col-6.rounded.main-color.border-dark.border-2
+      .d-flex.justify-content-between
+        h2= biere.tagline
+        img(src="images/medaille-or.png", alt=biere.name).rounded.random-biere
+      .d-flex
+        
+        .d-flex.flex-row.align-items-start
+          if biere.image_url
+            img(src=biere.image_url, alt=biere.name).img-liste-bieres.rounded.random-biere.mx-5
+          else 
+            img(src="images/biere-indispo.jpg", alt="pas de bière").img-liste-bieres.rounded.biere-indispo.mx-5
+          .d-flex.flex-column.mx-3
+            .d-flex.flex-row.justify-content-start
+              p.px-3
+                strong IBU 
+                span : #{biere.ibu}
+              p.px-3 
+                strong ABV 
+                span : #{biere.abv}
+
+            p= biere.description
   else
-    p Une erreur est survenue lors de la récupération de la boisson aléatoire.
+    p Une erreur est survenue lors de la récupération de la bière aléatoire.

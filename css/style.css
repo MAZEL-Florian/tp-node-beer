@@ -1,4 +1,124 @@
 .img-liste-bieres{
-    width: 10%;
-    height: 10%;
+  width: 25%;
+  height: 50%;
+  display: block;
+  margin: auto;
+}
+.img-accueil-biere{
+  width: 35%;
+  height: auto;
+  margin: auto;
+  display: block; 
+}
+
+.random-biere{
+    width: 5%;
+    height: auto;
+}
+
+.biere-indispo{
+  width: 25%;
+}
+
+.main-color {
+  background: linear-gradient(#FFD07F, #FFC678, #FFBE5C, #FFB64B, #FFA831);
+}
+
+.bg-bar {
+  background-image: url('../images/bg-biere.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.content {
+  position: relative;
+  height: auto;
+  display: flex;
+  margin: auto;
+  overflow: hidden;
+  text-align: center;
+}
+  
+.content .content-overlay {
+  background: rgba(0,0,0,0.7);
+  position: absolute;
+  height: auto;
+  width: 100%;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  opacity: 0;
+  -webkit-transition: all 0.4s ease-in-out 0s;
+  -moz-transition: all 0.4s ease-in-out 0s;
+  transition: all 0.4s ease-in-out 0s;
+}
+
+.content:hover .content-overlay{
+  opacity: 1;
+}
+
+.content-image{
+  width: auto;
+  max-height: 200px;
+  height: auto;
+}
+
+.content-details {
+  position: absolute;
+  text-align: center;
+  padding-left: 1em;
+  padding-right: 1em;
+  width: 100%;
+  top: 50%;
+  left: 50%;
+  opacity: 0;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  -webkit-transition: all 0.3s ease-in-out 0s;
+  -moz-transition: all 0.3s ease-in-out 0s;
+  transition: all 0.3s ease-in-out 0s;
+}
+
+.content:hover .content-details{
+  top: 50%;
+  left: 50%;
+  opacity: 1;
+}
+
+.content-details h1{
+  color: #fff;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  margin-bottom: 0.5em;
+}
+
+.fadeIn-bottom{
+  top: 80%;
+}
+
+.img-biere-detail{
+  width: 5%;
+  height: 5%;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 150px;
+}
+
+.footer {
+  position: absolute;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  bottom: 0;
+  width: 100%;
+  height: 80px;
 }

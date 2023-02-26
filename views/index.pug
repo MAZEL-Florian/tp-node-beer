@@ -1,1 +1,29 @@
-extends navbar
+extends layout
+
+block content
+    .container
+        h1.py-5.text-center.text-white La bière la plus populaire
+        .col.text-center.my-4.d-flex.align-items-center.justify-content-center.border.border-2.rounded.border-dark.main-color
+            .flex-column.col-6.d-flex.align-items-center.justify-content-center
+                img(src=biere.image_url, alt=biere.name).img-accueil-biere.rounded.mx-5
+            .flex-column.col-6.border.border-dark.rounded.border-2
+                ul.list-group
+                li.list-group-item.d-flex.justify-content-between
+                    strong Nom:
+                    span #{biere.name}
+                li.list-group-item.d-flex.justify-content-between
+                    strong Tagline:
+                    span #{biere.tagline}
+                li.list-group-item.d-flex.justify-content-between
+                    strong Première brasserie:
+                    span #{biere.first_brewed}
+                li.list-group-item.d-flex.justify-content-between
+                    strong Alcool par volume (ABV):
+                    span #{biere.abv}
+                li.list-group-item.d-flex.justify-content-between
+                    strong PH:
+                    span #{biere.ph}
+                li.list-group-item.d-flex.justify-content-between
+                    strong Niveau d'atténuation:
+                    span #{biere.attenuation_level}
+            

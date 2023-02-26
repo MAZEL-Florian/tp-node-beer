@@ -1,44 +1,62 @@
-extends navbar
+extends layout
 
 block content
   section.listes
   head
     title Liste des bières
   body
-    h1.text-center Liste des bières
-    ul#beers
+    h1.text-center.py-5.text-white Liste des bières
+    .container
+      #bieres.row.row-cols-1.row-cols-md-3.g-4.text-decoration-none
   script(src="/socket.io/socket.io.js")
   script.
     const socket = io();
 
-    socket.on('beers', (beers) => {
-      const beersList = document.getElementById('beers');
-      beersList.innerHTML = '';
+    socket.on('beers', (bieres) => {
+      const listeBieres = document.getElementById('bieres');
+      listeBieres.innerHTML = '';
 
-      beers.forEach((beer) => {
-        const li = document.createElement('li');
-        
-        // Affichage du nom et de la description de la bière
-        const name = document.createElement('h4');
-        name.innerText = beer.name;
-        li.appendChild(name);
+      bieres.forEach((biere) => {
 
+        const divBiere = document.createElement('div');
+        divBiere.classList.add('col-lg-4', 'col-md-6')
+          const biere_card = document.createElement('div');
+          biere_card.classList.add('content', 'card', 'mt-4', 'main-color')
 
-        // Création du lien vers la page de détails de la bière
-        const link = document.createElement('a');
-        link.href = '/biere/' + beer.id;
-        link.appendChild(name);
-        li.appendChild(link);
+          // Création du lien vers la page de détails de la bière
+          const link = document.createElement('a');
+          link.href = '/biere/' + biere.id;
 
-        // Affichage de l'image de la bière
-        if (beer.image_url) {
-          const image = document.createElement('img');
-          image.classList.add('img-liste-bieres');
-          image.src = beer.image_url;
-          image.alt = beer.name;
-          li.appendChild(image);
-        }
+          // Si l'image existe
+          if (biere.image_url) {
+            const image = document.createElement('img');
+            //- Création des cards de Bootstrap
+            image.classList.add('card-img-top', 'content-image', 'img-fluid');
+            image.src = biere.image_url;
+            image.alt = biere.name;
+            link.appendChild(image);
+            const div_image = document.createElement('div');
+            div_image.classList.add('content-overlay');
+            link.appendChild(div_image);
+            const fadeIn_image = document.createElement('div');
+            //- Création de l'animation lors du hover
+            fadeIn_image.classList.add('content-details', 'fadeIn-bottom');
+            const image_titre = document.createElement('h1');
+            image_titre.classList.add('content-title');
+            image_titre.innerText = biere.name;
+            fadeIn_image.appendChild(image_titre);
+            link.appendChild(fadeIn_image);
+            const card_footer = document.createElement('div');
+            card_footer.classList.add('card-footer', 'text-center', 'bg-dark');
+            const card_footer_link = document.createElement('a');
+            card_footer_link.classList.add('btn', 'btn-link', 'stretched-link', 'text-decoration-none', 'text-white', 'fw-bold');
+            card_footer_link.innerText = biere.name;
+            card_footer.appendChild(card_footer_link);
+            link.appendChild(card_footer);
+          }
+          biere_card.appendChild(link);
+          divBiere.appendChild(biere_card);
 
-        beersList.appendChild(li);
+        listeBieres.appendChild(divBiere);
       });
     });
